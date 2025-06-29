@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 100)->index();
             $table->string('nombre_cientifico')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -73,7 +73,7 @@
                         </li>
 
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Mascotas</a>
+                            <a class="nav-link" href="{{ route('especie.index') }}">Mascotas</a>
                         </li>
                             
                         @endauth
@@ -154,6 +154,8 @@
     <script type="module" src="{{ asset('js/inicio/scripts.js') }}" defer></script>
 @endif
 
-
+@if(request()->is('admin/especies'))
+    <script type="module" src="{{ asset('js/especies/scripts.js') }}" defer></script>
+@endif
 
 </html>

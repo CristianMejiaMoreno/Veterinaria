@@ -29,12 +29,10 @@ export async function editarEspecie(id) {
     const titulo = document.getElementById('especieModalLabel');
     titulo.textContent = 'Editar especie';
 
-    // Limpiar imagen previa
     const imagen = document.getElementById('imagenPreview');
     imagen.src = '';
     imagen.style.display = 'none';
 
-    // Resetear formulario
     document.getElementById('especieForm').reset();
 
     // Asignar valores
@@ -52,7 +50,6 @@ export async function editarEspecie(id) {
         }
     });
 
-    // Listener para cambios (texto e imagen)
     const cambios = {};
     campos.forEach(campo => {
         const input = document.getElementById(campo);
@@ -91,7 +88,7 @@ export async function editarEspecie(id) {
             const token = document.querySelector('meta[name="csrf-token"]').content;
             const formEditar = new FormData();
 
-            formEditar.append('_method', 'PUT'); // importante para Laravel
+            formEditar.append('_method', 'PUT'); 
 
             campos.forEach(campo => {
                 const input = document.getElementById(campo);

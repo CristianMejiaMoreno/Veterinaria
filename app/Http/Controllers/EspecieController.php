@@ -92,4 +92,19 @@ class EspecieController extends Controller
             ], 500);
         }
     }
+
+    public function especiesForTomSelect()
+    {
+        try
+        {
+            $especies = $this->especieService->getEspeciesForTomSelect();
+
+            return response($especies, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
+    }
 }

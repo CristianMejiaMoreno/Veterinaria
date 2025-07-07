@@ -82,4 +82,11 @@ class EspecieService
 
         return $Especie;
     }
+
+    public function getEspeciesForTomSelect()
+    {
+        $especies = Especie::select('id as value', 'nombre as label')->get();
+
+        return $especies;
+    }
 }

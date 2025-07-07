@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Raza;
 use App\Models\User;
 use App\Models\Cliente;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Cliente::factory(10000)->create();
+        // Cliente::factory(10000)->create();
+
+        Raza::factory(1000)->create();
     }
 }

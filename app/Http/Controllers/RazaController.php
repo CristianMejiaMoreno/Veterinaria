@@ -2,64 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RazaDataTable;
+use App\Http\Requests\Raza\CreateRaza;
+use App\Http\Requests\Raza\UpdateRaza;
 use App\Models\Raza;
+use App\Services\RazaService;
 use Illuminate\Http\Request;
+use Exception;
 
 class RazaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $razaService;
+
+    public function __construct(RazaService $razaService)
     {
-        //
+        $this->razaService = $razaService; 
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(RazaDataTable $razaDataTable)
     {
-        //
+        return $razaDataTable->render('razas.index');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRaza $request)
     {
-        //
+        try{
+            
+            $raza = $this->razaService->createRaza($request->validated());
+
+            return response ($raza, 200);
+
+        }catch(Exception $e){
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Raza $raza)
+    public function show($id)
     {
-        //
-    }
+        try{
+            $raza = $this->razaService->getRazaById($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Raza $raza)
-    {
-        //
+            return response($raza, 200);
+        }catch(Exception $e){
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Raza $raza)
+    public function update(UpdateRaza $request, int $id)
     {
-        //
+        try{
+            $raza = $this->razaService->updateRaza($id, $request->validated());
+
+            return response($raza, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Raza $raza)
+    public function destroy(int $id)
     {
-        //
+        try{
+            $raza = $this->razaService->deleteRaza($id);
+
+            return response($raza, 200);
+        }catch(Exception $e){
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
+    
 }

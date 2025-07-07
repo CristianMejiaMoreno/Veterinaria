@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('razas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('especie_id')->references('id')->on('especies');
+            $table->string('nombre', 100)->index();
+            $table->string('rasgos');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

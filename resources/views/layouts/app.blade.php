@@ -21,9 +21,9 @@
 
 
     {{-- CSS --}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 
-
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
 
 
     <!--JS para bootstrap-->
@@ -73,9 +73,12 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('especie.index') }}">Mascotas</a>
+                            <a class="nav-link" href="{{ route('especie.index') }}">Especies</a>
                         </li>
                             
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('raza.index') }}">Razas</a>
+                        </li>
                         @endauth
                     </ul>
 
@@ -140,7 +143,7 @@
 
 </body>
 
-
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
 <script>
     window.APP_URL = @json(url('/'));
@@ -156,6 +159,10 @@
 
 @if(request()->is('admin/especies'))
     <script type="module" src="{{ asset('js/especies/scripts.js') }}" defer></script>
+@endif
+
+@if(request()->is('admin/razas'))
+    <script type="module" src="{{ asset('js/razas/scripts.js') }}" defer></script>
 @endif
 
 </html>

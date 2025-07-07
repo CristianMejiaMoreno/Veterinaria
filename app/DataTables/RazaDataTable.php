@@ -22,7 +22,32 @@ class RazaDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'raza.action')
+            ->editColumn('created_at', function($row){
+                return $row->created_at->format('d/m/Y H:i');
+            })
+            ->editColumn('updated_at', function($row){
+                return $row->updated_at->format('d/m/Y H:i');
+            })
+            ->editColumn('especie', function(Raza $row){
+                return optional($row->especie)->nombre ?? '';
+            })
+            ->addColumn('action', function(Raza $razas){
+                return'
+                    <button class="btn btn-sm btn-dark edit-btn" onclick="editarRaza('.$razas->id.')"   data-id="'.$razas->id.'">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-btn" onclick="borrarRaza('.$razas->id.')" data-id="'.$razas->id.'">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                ';
+            })
+            ->setRowAttr([
+                'data-aos' => 'fade-up',   
+                'data-aos-delay' => function ($row) {
+                    return $row->id * 50 % 400;
+                },
+            ])
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -33,7 +58,8 @@ class RazaDataTable extends DataTable
      */
     public function query(Raza $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with('especie');
     }
 
     /**
@@ -45,8 +71,18 @@ class RazaDataTable extends DataTable
                     ->setTableId('raza-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->dom('Bftrip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->addAction([
+                        'title'      => 'Acciones',
+                        'width'      => '90px',
+                        'className'  => 'text-center',
+                        'exportable' => false,
+                        'printable'  => false,
+                        'orderable'  => false,
+                        'searchable' => false,
+                    ])
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
@@ -63,13 +99,15 @@ class RazaDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
+            Column::make('nombre'),
+            Column::computed( 'especie')
+                ->title('Especie')
+                ->exportable(true)
+                ->printable(true)
+                ->orderable(false)
+                ->searchable(false),
+            Column::make('rasgos'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];

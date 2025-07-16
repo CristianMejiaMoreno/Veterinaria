@@ -56,7 +56,7 @@ class MascotaService
         {
             $mascota = Mascotas::findOrFail($id);
 
-            $mascota->update($request->all());
+            $mascota->update($request);
 
             return $mascota;
 

@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('mascotas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('especie_id')->references('id')->on('especies');
+            $table->foreignId('raza_id')->references('id')->on('razas');
+            $table->foreignId('cliente_id')->references('id')->on('clientes');
+            $table->string('nombre');
+            $table->date('fecha_nacimiento');
+            $table->integer('edad');
+            $table->boolean('sexo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\MascotasDataTable;
+use App\Http\Requests\Mascota\CreateMascota;
+use App\Http\Requests\Mascota\UpdateMascota;
 use App\Models\Mascotas;
 use App\Services\DogApiService;
 use App\Services\MascotaService;
@@ -26,62 +29,92 @@ class MascotasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(MascotasDataTable $mascotasDataTable)
     {
-        try{
-
-        }catch(Exception)
-        {
-            
-        }
+       try
+       {
+        return $mascotasDataTable->render('mascotas.index');
+       }catch(Exception $e){
+        return response()->json([
+            "Error"=>$e->getMessage()
+        ], 500);
+       }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateMascota $request)
     {
-        //
+        try
+        {
+            $mascota = $this->mascotaService->createMascota($request->validated());
+
+            return response($mascota, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ],500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mascotas $mascotas)
+    public function show($id)
     {
-        //
+        try
+        {
+            $mascota = $this->mascotaService->getMascotaById($id);
+
+            return $mascota;
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mascotas $mascotas)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mascotas $mascotas)
+    public function update(UpdateMascota $request, int $id)
     {
-        //
+        try
+        {
+
+            $mascota = $this->mascotaService->updateMascota($id, $request->validated());
+
+            return response($mascota, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Mascotas $mascotas)
+    public function destroy(int $id)
     {
-        //
+        try
+        {
+            $mascota = $this->mascotaService->deleteMascota($id);
+
+            return response($mascota, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
     }
 
     public function getGatos()

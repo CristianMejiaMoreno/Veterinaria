@@ -22,8 +22,14 @@ class MascotasDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('dueño', function (Mascotas $row){
+            ->addColumn('cliente', function (Mascotas $row){
                 return optional($row->cliente)->nombre ?? '-';
+            })
+            ->addColumn('raza', function (Mascotas $row){
+                return optional($row->raza)->nombre ?? '-';
+            })
+            ->addColumn('especie', function (Mascotas $row){
+                return optional($row->especie)->nombre ?? '-';
             })
             ->editColumn('created_at', function($row){
                 return $row->created_at->format('d/m/Y H:i');
@@ -31,18 +37,27 @@ class MascotasDataTable extends DataTable
             ->editColumn('updated_at', function($row){
                 return $row->updated_at->format('d/m/Y H:i');
             })
+            ->editColumn('sexo', function($row){
+                return $row->sexo == 1 ? 'Masculino' : 'Femenino';
+            })
             ->addColumn('action', function(Mascotas $mascotas){
 
                 return '
-                    <button class="btn btn-sm btn-dark edit-btn" onclick=""   data-id="'.$mascotas->id.'">
+                    <button class="btn btn-sm btn-dark edit-btn" onclick="editarMascota('.$mascotas->id.')"   data-id="'.$mascotas->id.'">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-danger delete-btn" onclick="" data-id="'.$mascotas->id.'">
+                    <button class="btn btn-sm btn-danger delete-btn" onclick="borrarMascota('.$mascotas->id.')" data-id="'.$mascotas->id.'">
                         <i class="bi bi-trash"></i>
                     </button>
                 ';
 
             })
+            ->setRowAttr([
+                'data-aos' => 'fade-up',   
+                'data-aos-delay' => function ($row) {
+                    return $row->id * 50 % 400;
+                },
+            ])
             ->rawColumns(['action'])
             ->setRowId('id');
     }
@@ -55,7 +70,7 @@ class MascotasDataTable extends DataTable
     public function query(Mascotas $model): QueryBuilder
     {
         return $model->newQuery()
-            ->with('cliente');
+            ->with(['cliente','raza','especie']);
     }
 
     /**
@@ -96,16 +111,27 @@ class MascotasDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::computed( 'dueño')
+            Column::computed( 'cliente')
                 ->title('Dueño')
                 ->exportable(true)
                 ->printable(true)
                 ->orderable(false)
                 ->searchable(false),
+            Column::computed( 'especie')
+                ->title('Especie')
+                ->exportable(true)
+                ->printable(true)
+                ->orderable(false)
+                ->searchable(false),
+            Column::computed( 'raza')
+                ->title('Raza')
+                ->exportable(true)
+                ->printable(true)
+                ->orderable(false)
+                ->searchable(false),
             Column::make('nombre'),
-            Column::make('especie'),
-            Column::make('raza'),
             Column::make('fecha_nacimiento'),
+            Column::make('edad'),
             Column::make('sexo'),
             Column::make('created_at'),
             Column::make('updated_at'),

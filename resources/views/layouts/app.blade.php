@@ -79,6 +79,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('raza.index') }}">Razas</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mascota.index') }}">Mascotas</a>
+                        </li>
                         @endauth
                     </ul>
 
@@ -163,6 +167,10 @@
 
 @if(request()->is('admin/razas'))
     <script type="module" src="{{ asset('js/razas/scripts.js') }}" defer></script>
+@endif
+
+@if(request()->is('admin/mascotas'))
+    <script type="module" src="{{ asset('js/mascotas/scripts.js') }}" defer></script>
 @endif
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mascotas;
 use App\Models\Raza;
 use App\Models\User;
 use App\Models\Cliente;
@@ -24,6 +25,8 @@ class DatabaseSeeder extends Seeder
 
         // Cliente::factory(10000)->create();
 
-        Raza::factory(1000)->create();
+        // Raza::factory(1000)->create();
+
+        Mascotas::factory(1000)->create();
     }
 }

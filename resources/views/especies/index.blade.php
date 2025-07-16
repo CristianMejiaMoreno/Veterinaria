@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">Listado de especies</div>
             <div class="card-body">
-                <button class="btn btn-success mb-3" id="btnCrearCliente" onclick="modalEspecie()" >
+                <button class="btn btn-success mb-3" id="btnCrearEspecie" onclick="modalEspecie()" >
                     Crear especie
                 </button>
                 @include('especies.partials.imagen')

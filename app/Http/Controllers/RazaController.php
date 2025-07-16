@@ -93,5 +93,20 @@ class RazaController extends Controller
             ], 500);
         }
     }
+
+    public function razasForTomSelect()
+    {
+        try
+        {
+            $razas = $this->razaService->getRazasForTomSelect();
+
+            return response($razas, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
+    }
     
 }

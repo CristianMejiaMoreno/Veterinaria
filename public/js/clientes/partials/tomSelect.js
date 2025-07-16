@@ -1,17 +1,17 @@
 export async function tomSelect(preselectedId = null) {
-    const select = document.getElementById('select-raza');
+    const select = document.getElementById('select-cliente');
 
     if (select.tomselect) {
         select.tomselect.destroy();
     }
 
-    const url = window.APP_URL + '/admin/razas/TomSelect';
+    const url = window.APP_URL + '/admin/clientes/TomSelect';
     const data = await fetch(url);
 
     if (data.ok) {
         const especies = await data.json();
 
-        const tom = new TomSelect("#select-raza", {
+        const tom = new TomSelect("#select-cliente", {
             valueField: 'value',
             labelField: 'label',
             searchField: ['label'],

@@ -87,4 +87,11 @@ class ClienteService
 
         return $cliente;
     }
+
+    public function getClientesForTomSelect()
+    {
+        $clientes = Cliente::select('id as value', 'nombre as label')->get();
+
+        return $clientes;
+    }
 }

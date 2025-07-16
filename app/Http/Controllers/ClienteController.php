@@ -101,4 +101,19 @@ class ClienteController extends Controller
             ]);
         }
     }
+
+    public function clientesForTomSelect()
+    {
+        try
+        {
+            $clientes = $this->clienteService->getClientesForTomSelect();
+
+            return response($clientes, 200);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                "Error"=>$e->getMessage()
+            ], 500);
+        }
+    }
 }

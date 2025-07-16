@@ -1,4 +1,4 @@
-import { tomSelect } from "./tomSelect.js";
+import { tomSelect } from "../../especies/partials/tomSelect.js";
 
 export async function modal(preselectedId = null)
 {

@@ -58,5 +58,12 @@ class RazaService
 
         return $raza;
     }
+
+    public function getRazasForTomSelect()
+    {
+        $razas = Raza::select('id as value', 'nombre as label')->get();
+
+        return $razas;
+    }
     
 }
